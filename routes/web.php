@@ -12,7 +12,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+if (file_exists('../resources/views/setup.blade.php')){
+    Route::get('/', function () {
+        return view('setup');
+    });
+} else {
+    Route::get('/', function () {
+        return view('welcome');
+    });
+};
