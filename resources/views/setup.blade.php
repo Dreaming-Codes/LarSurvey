@@ -17,11 +17,10 @@
     </div>
 </footer>
 <?php
-$EnvLang = getenv ('APP_LOCALE');
-if (strlen($EnvLang) < 1) {
+if (strlen(getenv('APP_LOCALE')) < 1) {
     langSelect();
-} else {
-    setup();
+} else if (strlen(getenv('LAR_SESSION_ID')) < 1) {
+    setup_Session();
 };
 
 function langSelect () {
@@ -29,7 +28,7 @@ function langSelect () {
 <div class="max-w-sm rounded overflow-hidden shadow-lg m-auto">
     <div class="px-6 py-4">
 <form action="<?php if (!empty($_POST)){file_put_contents("../.env",str_replace('APP_LOCALE=' . Lang::locale(),'APP_LOCALE=' . $_POST['lang'],file_get_contents("../.env"))); header("Refresh:0");} ?>" method="post">@csrf
-    <label for="dbname">@lang('install.lang')</label><br>
+    <label>@lang('install.lang')</label><br>
     <select name="lang" id="lang">
         <?php $languages = scandir("../resources/lang/"); unset($languages[0]); unset($languages[1]); $languages = array_values($languages); foreach($languages as $lang):?>
             <option value="<?= $lang ?>"><?= $lang ?></option>
@@ -41,13 +40,44 @@ function langSelect () {
     </div>
     <div class="px-6 py-4">
         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#LarSurvey</span>
-        <input class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2" style="margin-left: 48%; margin-right: 2px;" type="submit">
+        <input value="@lang('install.continue')" class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2" style="margin-left: 45%; margin-right: 2px;" type="submit">
     </div>
 </form>
 </div>
 <?php };
-function setup () {?>
-Qui va il setup quando ho voglia di farlo
+function setup_Session () {?>
+<div role="alert">
+    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2 text-center">
+        @lang('install.attention')
+    </div>
+    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+        <p>@lang('install.attentiondesc')</p>
+    </div>
+</div>
+<div class="max-w-sm rounded overflow-hidden shadow-lg m-auto">
+    <div class="px-6 py-4">
+        <form action="<?php if (!empty($_POST)){
+            file_put_contents("../.env",str_replace('LAR_SESSION_ID=' . getenv('LAR_SESSION_ID'),'LAR_SESSION_ID=' . $_POST['sessionidname'],file_get_contents("../.env"))); header("Refresh:0");
+            file_put_contents("../.env",str_replace('LAR_SESSION_NAME=' . getenv('LAR_SESSION_NAME'),'LAR_SESSION_NAME=' . $_POST['sessionnamename'],file_get_contents("../.env"))); header("Refresh:0");
+            file_put_contents("../.env",str_replace('LAR_SESSION_MAIL=' . getenv('LAR_SESSION_MAIL'),'LAR_SESSION_MAIL=' . $_POST['sessionmailname'],file_get_contents("../.env"))); header("Refresh:0");
+            file_put_contents("../.env",str_replace('LAR_SESSION_USERGRADE=' . getenv('LAR_SESSION_USERGRADE'),'LAR_SESSION_USERGRADE=' . $_POST['sessionusergradename'],file_get_contents("../.env"))); header("Refresh:0");
+        } ?>" method="post">@csrf
+            <label>@lang('install.session')</label><br><br>
+            <label>@lang('install.sessionidname')</label>
+            <input name="sessionidname" id="sessionidname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+            <label>@lang('install.sessionnamename')</label>
+            <input name="sessionnamename" id="sessionnamename" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+            <label>@lang('install.sessionmailname')</label>
+            <input name="sessionmailname" id="sessionmailname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+            <label>@lang('install.sessionusergradename')</label>
+            <input name="sessionusergradename" id="sessionusergradename" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+    </div>
+    <div class="px-6 py-4">
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#LarSurvey</span>
+        <input value="@lang('install.continue')" class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2" style="margin-left: 45%; margin-right: 2px;" type="submit">
+    </div>
+    </form>
+</div>
 <?php };?>
 </body>
 </html>

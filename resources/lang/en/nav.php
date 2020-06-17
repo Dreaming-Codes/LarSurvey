@@ -4,5 +4,5 @@
 
 return [
     'install' => 'Installation',
-    'official' => 'Official website'
+    'official' => 'Official website',
 ];
