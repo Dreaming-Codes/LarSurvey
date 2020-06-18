@@ -21,7 +21,9 @@ if (strlen(getenv('APP_LOCALE')) < 1) {
     langSelect();
 } else if (strlen(getenv('LAR_SESSION_ID')) < 1) {
     setup_Session();
-};
+} else {
+    setup_General();
+}
 
 function langSelect () {
 ?>
@@ -78,6 +80,23 @@ function setup_Session () {?>
     </div>
     </form>
 </div>
-<?php };?>
+<?php };
+function setup_General () { ?>
+<div class="max-w-sm rounded overflow-hidden shadow-lg m-auto">
+    <div class="px-6 py-4">
+        <form action="<?php if (!empty($_POST)){
+            file_put_contents("../.env",str_replace('LAR_HOME=' . getenv('LAR_HOME'),'LAR_HOME=' . $_POST['homewebsite'],file_get_contents("../.env"))); header("Refresh:0");
+        } ?>" method="post">@csrf
+            <label>@lang('install.homewebsite')</label><br><br>
+            <label>@lang('install.homewebsitelabel')</label>
+            <input value="<?= 'https://' . $_SERVER['HTTP_HOST'] ?>" name="homewebsite" id="homewebsite" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+    </div>
+    <div class="px-6 py-4">
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#LarSurvey</span>
+        <input value="@lang('install.end')" class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2" style="margin-left: 45%; margin-right: 2px;" type="submit">
+    </div>
+    </form>
+</div>
+<?php }; ?>
 </body>
 </html>
