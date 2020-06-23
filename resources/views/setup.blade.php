@@ -7,7 +7,7 @@
 <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-6">
     <div class="flex items-center flex-shrink-0 text-white mr-6">
         <img class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" src="https://laravel.com/img/logomark.min.svg"></img>
-        <span class="font-semibold text-xl tracking-tight">LarSurvey + @lang('nav.install')</span>
+        <span class="font-semibold text-xl tracking-tight">LarSurvey - @lang('nav.install')</span>
     </div>
     <a href="https://larsurvey.com" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">@lang('nav.official')</a>
 </nav>
